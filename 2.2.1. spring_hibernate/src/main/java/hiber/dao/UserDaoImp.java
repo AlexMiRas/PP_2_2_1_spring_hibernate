@@ -26,4 +26,17 @@ public class UserDaoImp implements UserDao {
       return query.getResultList();
    }
 
+   @Override
+   public List<User> findUserByCar(String model, int series) {
+      TypedQuery<User> query=sessionFactory.getCurrentSession()
+              .createQuery("from User u where u.car.model= : model and u.car.series = : series",
+                      User.class)
+              .setParameter("model", model)
+              .setParameter("series", series);
+      List<User> users = query.getResultList();
+      if (users.isEmpty()) {
+         System.out.println("--------------- \n" + "Users with such cars is not exist");
+      }
+      return users;
+   }
 }
